@@ -3,69 +3,58 @@ import { connect } from 'dva';
 import styles from './IndexPage.css';
 // import { Button } from 'antd';
 // import Button from 'antd/lib/button';
-import { Modal, Button } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 
-const { confirm } = Modal;
+const { Header, Sider, Content } = Layout;
 
 class App extends React.Component {
-  state = { visible: false }
+  state = {
+    collapsed: false,
+  };
 
-  showModal = () => {
+  toggle = () => {
     this.setState({
-      visible: true,
-    });
-  }
-
-  handleOk = (e) => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  }
-
-  handleConfirm = () => {
-    confirm({
-      title: 'Do you Want to delete these items?',
-      content: 'Some descriptions',
-      onOk() {
-        console.log('OK');
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
-  }
-
-  handleCancel = (e) => {
-    console.log(e);
-    this.setState({
-      visible: false,
+      collapsed: !this.state.collapsed,
     });
   }
 
   render() {
     return (
-      <div className={styles.normal}>
-        <Button type="primary" onClick={this.showModal}>Open</Button>
-        <Modal
-          title="Basic Modal"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          cancelText={"取消"}
-          onCancel={this.handleCancel}
+      <Layout>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={this.state.collapsed}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-        <Button type="primary" onClick={ () => this.handleConfirm() }>click me</Button>
-        <h1 className={styles.title}>Yay! Welcome to dva!</h1>
-        <div className={styles.welcome} />
-        <ul className={styles.list}>
-          <li>To get started, edit <code>src/index.js</code> and save to reload.</li>
-          <li><a href="https://github.com/dvajs/dva-docs/blob/master/v1/en-us/getting-started.md">Getting Started</a></li>
-        </ul>
-      </div>
+          <div className="logo" />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1">
+              <Icon type="user" />
+              <span>nav 1</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Icon type="video-camera" />
+              <span>nav 2</span>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Icon type="upload" />
+              <span>nav 3</span>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Header style={{ background: '#fff', padding: 0 }}>
+            <Icon
+              className="trigger"
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+          </Header>
+          <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+            Content
+          </Content>
+        </Layout>
+      </Layout>
     );
   }
 }
