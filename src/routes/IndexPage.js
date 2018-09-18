@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './IndexPage.css';
+import styles from './IndexPage.less';
+import logo from '../assets/logo.svg';
+import { Link } from 'dva/router';
 // import { Button } from 'antd';
 // import Button from 'antd/lib/button';
 import { Layout, Menu, Icon } from 'antd';
@@ -26,7 +28,12 @@ class App extends React.Component {
           collapsible
           collapsed={this.state.collapsed}
         >
-          <div className="logo" />
+          <div className={styles.logo} key="logo">
+            <Link to="/">
+              <img src={logo} alt="logo" />
+              <h1>Ant Design Pro</h1>
+            </Link>
+          </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
               <Icon type="user" />
@@ -45,7 +52,7 @@ class App extends React.Component {
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
-              className="trigger"
+              className={styles.trigger}
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
