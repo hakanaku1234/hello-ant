@@ -6,15 +6,34 @@ import { Link } from 'dva/router';
 // import { Button } from 'antd';
 // import Button from 'antd/lib/button';
 import { Layout, Menu, Icon, Drawer } from 'antd';
+import { enquireScreen, unenquireScreen } from 'enquire-js';
 
 const SubMenu = Menu.SubMenu;
 
 const { Header, Sider, Content } = Layout;
 
+let isMobile;
+enquireScreen(b => {
+  isMobile = b;
+});
+
 class App extends React.Component {
+  componentDidMount() {
+    this.enquireHandler = enquireScreen(mobile => {
+      this.setState({
+        isMobile: mobile,
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    unenquireScreen(this.enquireHandler);
+  }
+
   // true 的时候默认不可见, false 的时候可见
   state = {
     collapsed: true,
+    isMobile
   };
 
   // 切换布尔值，true 变成 false，false 变成 true
@@ -31,6 +50,9 @@ class App extends React.Component {
   };
 
   render() {
+    const { isMobile: mb } = this.state;
+    console.log(isMobile);
+    console.log(mb);
     return (
       <Layout>
         <Drawer
